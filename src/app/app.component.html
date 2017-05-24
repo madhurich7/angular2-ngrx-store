@@ -1,0 +1,3 @@
+<input type="number" #myInp value="0">
+<app-clock [clock]="clock"></app-clock>
+<button (click)="subject$.next(myInp.value)">click</button>

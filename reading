@@ -1,0 +1,59 @@
+clock = Observable.interval(1000);
+subject$ = new Subject();
+
+constructor(){
+  //this.clock.subscribe(() => new Date());
+  this.subject$.subscribe(() => new Date())
+}
+
+
+
+We can merge observables, and the function within map will be executed, when either of the observable stream is emitted
+Observable.merge(
+  obs1$,
+  obs2$
+).map(() => new Date());
+//here the new Date is changed when ever either of the observable streams emit values, but if we want to chnage the date much faster, i.e to keep track of the date, we can use 'scan' to keep track and for the initial value we can use 'startWith'
+
+Observable.merge(
+  obs1$,
+  obs2$
+).startWith(new Date())
+  .scan((acc, curr) => {
+      const date = new Date(acc.getTime());
+      date.setSeconds(date.getSeconds + 1);
+      return date;
+  });
+
+
+Subject is used to create and Observable
+
+subject$ = new Subject(); //creates a new observable stream
+and from this stream values can be emitted using 'next' method
+subejct$.next()
+
+************************IMPORTANT***********************
+DO THIS TO USE STORE, also for error handling purposes
+inside of 'main.ts' file write then function
+
+platformBrowserDynamic().bootstrapModule(AppModule).then(() => console.log('app running'),
+          (err) => console.log('error occured', err));
+
+REFER https://github.com/ngrx/store/issues/78
+look into above, to set up store and reducer, inside of app.module.ts
+
+import {StoreModule} from '@ngrx/store';
+import {clock} from './reducers/clock';
+
+include "provideStore and the store 'clock' "
+imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    StoreModule.provideStore({clock})
+  ],
+
+
+  console.log.bind(console)--> what this means is, inside of console we have 'this' and 'this'
+ here will point to 'console' now when we do 'console.log.bind(console)' --> this returns a new function and in that funciton we have 'this' and inorder to make 'that' 'this' to point to console, we write 'console' within the parenthesess of bind.
+
